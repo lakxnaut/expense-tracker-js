@@ -29,6 +29,9 @@ function addItems(e) {
         li.appendChild(dltbtn)
 
         items.appendChild(li)
+
+        localStorage.setItem('inputvalue', InputValue.value);
+        localStorage.setItem('inputdesc', InputDesc.value);
         InputValue.value = ''
         InputDesc.value = ''
 

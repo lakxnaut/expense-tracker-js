@@ -3,40 +3,51 @@
 
 const form = document.getElementById("form");
 
+
+
 form.addEventListener('submit', formsubmit)
 const items = document.getElementById("items");
 
 
-// Object.keys(localStorage).map(function (key) {
-// const li = document.createElement("li");
-// li.className = 'list-item';
-
-// li.appendChild(document.createTextNode(key))
-// console.log(li);
-
-// items.appendChild(li)
-
-// });
+window.addEventListener('DOMContentLoaded', ApiCall)
 
 
-axios('https://crudcrud.com/api/c3575173f794430896847bbb59de8132/add').then(resp => {
-    resp.data.map(item => {
-        const li = document.createElement("li");
-        li.className = 'list-item';
+function ApiCall() {
+    axios('https://crudcrud.com/api/0b3abdd654f14e98b4a106c6b89de627/add').then(resp => {
+        resp.data.map(item => {
+            const li = document.createElement("li");
+            const button = document.createElement("button")
+            button.appendChild(document.createTextNode("delete"));
+            button.className = 'deletebutton'
+            li.className = 'list-item';
+            button.addEventListener('click', deleteItem)
 
-        li.appendChild(document.createTextNode(item.fname))
-        li.appendChild(document.createTextNode(item.email))
-        console.log(li);
-
-        items.appendChild(li)
-    }
-
-
+            function deleteItem(e) {
 
 
+                const id = item._id
 
-    )
-})
+                axios.delete(`https://crudcrud.com/api/0b3abdd654f14e98b4a106c6b89de627/add/${id}`)
+
+
+            }
+
+
+            li.appendChild(document.createTextNode(item.fname))
+            li.appendChild(document.createTextNode(item.email))
+            li.appendChild(button)
+            // console.log(li);
+
+            items.appendChild(li)
+        }
+
+
+
+
+
+        )
+    })
+}
 
 
 function formsubmit(e) {
@@ -51,8 +62,22 @@ function formsubmit(e) {
         fname, email
     }
 
-    axios.post('https://crudcrud.com/api/c3575173f794430896847bbb59de8132/add', obj).then(resp => console.log(resp).catch(error => console.log(error)))
+    axios.post('https://crudcrud.com/api/0b3abdd654f14e98b4a106c6b89de627/add', obj).then(resp => console.log(resp).catch(error => console.log(error)))
     // localStorage.setItem(email, JSON.stringify(obj))
 
-    return false
+}
+
+
+items.addEventListener('click', deleteItem);
+
+
+function deleteItem(e) {
+
+    console.log(e.target);
+
+    if (e.target.classList.contains('deletebutton')) {
+        // e.target.parentElement.remove();
+    }
+
+
 }
